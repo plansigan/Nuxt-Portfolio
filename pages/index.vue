@@ -9,12 +9,12 @@
         </v-btn>
   </v-toolbar>
     <v-layout row>
-      <v-flex lg12>
+      <v-flex lg8>
         <v-card class="card" dark color="primary">
           <v-card-text><PortfolioInfo></PortfolioInfo></v-card-text>
         </v-card>
       </v-flex>
-      <v-flex lg8>
+      <v-flex lg6>
         <v-card class="card" dark color="secondary">
           <v-card-text><PortfolioDetails></PortfolioDetails></v-card-text>
         </v-card>   
