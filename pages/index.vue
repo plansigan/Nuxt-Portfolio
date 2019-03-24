@@ -11,7 +11,8 @@
     <v-layout row>
       <v-flex lg8>
         <v-card class="card" dark color="primary">
-          <v-card-text><PortfolioInfo></PortfolioInfo></v-card-text>
+          <v-card-text v-if="showProjects == false"><PortfolioInfo></PortfolioInfo></v-card-text>
+          <v-card-text v-if="showProjects == true"><MyProjects></MyProjects></v-card-text>
         </v-card>
       </v-flex>
       <v-flex lg6>
@@ -37,12 +38,24 @@
 import PortfolioInfo from '@/components/MainPage/PortfolioInfo'
 import PortfolioDetails from '@/components/MainPage/PortfolioDetails'
 import SocialMedia from '@/components/MainPage/SocialMedia'
+import MyProjects from '@/components/MainPage/MyProjects'
     export default {
         layout:'mainLayout',
+        mounted(){
+          this.$root.$on('show-projects',(show)=>{
+                this.showProjects = show
+            })
+        },
+        data(){
+          return {
+            showProjects:false
+          }
+        },
         components:{
             PortfolioInfo,
             PortfolioDetails,
-            SocialMedia
+            SocialMedia,
+            MyProjects
         }
     }
 </script>
@@ -50,7 +63,6 @@ import SocialMedia from '@/components/MainPage/SocialMedia'
 <style scoped>
     .card{
         height:100%;
-        
     }
 </style>
 

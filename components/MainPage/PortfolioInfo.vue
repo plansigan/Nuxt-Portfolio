@@ -82,6 +82,10 @@
     export default {
         methods:{
             PortfolioDetails(details){
+                if(details == 'MyProjects'){
+                    this.$root.$emit('show-projects',true)
+                    return
+                }
                 this.$root.$emit('show-details',details)
             }
         }   
