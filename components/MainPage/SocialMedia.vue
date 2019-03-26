@@ -42,8 +42,8 @@ export default {
         bottom: 5%;
         left: 75%;
     }
-    #feedIcons > *{
+    /* #feedIcons > *{
         margin:0% 10%;
-    }
+    } */
 </style>
 

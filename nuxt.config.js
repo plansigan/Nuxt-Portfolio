@@ -58,7 +58,15 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+//
+  },
+    transition:{
+    name:'fade',
+    mode:'out-in'
+  },
+
+  env:{
+    firebaseURL:'https://nuxt-portfolio-e5e32.firebaseio.com'
   },
 
   /*
