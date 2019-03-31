@@ -8,7 +8,6 @@
                     <v-text-field
                     v-model="title"
                     :error-messages="titleErrors"
-                    :counter="15"
                     label="Title"
                     required
                     @input="$v.title.$touch()"
@@ -32,6 +31,19 @@
                     @input="$v.content.$touch()"
                     @blur="$v.content.$touch()"
                     ></v-textarea>
+
+                    <v-text-field
+                    v-model="link"
+                    label="Project link"
+                    >
+                    </v-text-field>
+
+                    <v-text-field
+                    v-model="image"
+                    label="Project Image"
+                    >
+                    </v-text-field>
+
                     <v-checkbox
                     v-model="isDisplayed"
                     label="is Displayed"
@@ -58,7 +70,7 @@
     mixins: [validationMixin],
 
     validations: {
-      title: { required, maxLength: maxLength(15),minLength:minLength(5) },
+      title: { required,minLength:minLength(5) },
       previewContent: { required },
       isDisplayed: {
         checked (val) {
@@ -73,6 +85,8 @@
       previewContent: '',
       select: null,
       content:'',
+      link:'',
+      image:'',
       isDisplayed: false
     }),
 
@@ -80,7 +94,6 @@
       titleErrors () {
         const errors = []
         if (!this.$v.title.$dirty) return errors
-        !this.$v.title.maxLength && errors.push('Title must be at most 15 characters long')
         !this.$v.title.minLength && errors.push('Title must be atleast 5 characters long')
         !this.$v.title.required && errors.push('Title is required.')
         return errors
@@ -109,6 +122,8 @@
                     title:this.title,
                     previewContent:this.previewContent,
                     content:this.content,
+                    link:this.link,
+                    image:this.image,
                     displayed:this.isDisplayed,
                     updatedDate:new Date()
             }
@@ -119,7 +134,8 @@
         this.$v.$reset()
         this.title = ''
         this.previewContent = ''
-        this.select = null
+        this.projectLink = '',
+        this.image='',
         this.isDisplayed = false
         this.content = ''
       }

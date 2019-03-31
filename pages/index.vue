@@ -10,20 +10,20 @@
         <v-icon>more_vert</v-icon>
         </v-btn>
     </v-toolbar>
-    <v-layout justify-center fill-height row>
-      <v-flex xs6 pt-2 px-1>
+    <v-layout justify-center row>
+      <v-flex :class="{'xs3 pt-2 px-1':showProjectDetails,'xs6 pt-2 px-1':!showProjectDetails}">
         <v-card class="card" dark color="accent" overflow-hidden>
-          <v-card-text v-if="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
-          <v-card-text v-if="showProjects"><MyProjects :projects="loadedPosts"></MyProjects></v-card-text>
+          <v-card-text v-show="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
+          <v-card-text v-show="showProjects"><MyProjects :projects="loadedPosts"></MyProjects></v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs3 pt-2 px-1>
+      <v-flex :class="{'xs6 pt-2 px-1':showProjectDetails,'xs3 pt-2 px-1':!showProjectDetails}">
         <v-card class="card" dark color="accent">
-          <v-card-text><PortfolioDetails v-if="!showProjectDetails"></PortfolioDetails></v-card-text>
-          <v-card-text v-if="showProjectDetails"><MyProjectDetails :projects="loadedPosts"></MyProjectDetails></v-card-text>
+          <v-card-text><PortfolioDetails v-show="!showProjectDetails"></PortfolioDetails></v-card-text>
+          <v-card-text v-show="showProjectDetails"><MyProjectDetails :projects="loadedPosts"></MyProjectDetails></v-card-text>
         </v-card>   
       </v-flex>
-      <v-flex xs3 pt-2 px-1>
+      <v-flex class="xs3 pt-2 px-1">
         <v-card class="card" dark color="accent">
           <v-card-text><SocialMedia></SocialMedia></v-card-text>
         </v-card>
@@ -51,8 +51,8 @@ import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
           this.$root.$on('show-projects',(show)=>{
                 this.showProjects = show
           })
-          this.$root.$on('project-details',(show)=>{
-              this.showProjectDetails = show
+          this.$root.$on('show-project-details',(data)=>{
+              this.showProjectDetails = data.show
           })
         },
         data(){
@@ -77,8 +77,14 @@ import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
 </script>
 
 <style scoped>
-    .card{
-        height:100%;
+    .card:not(.back-button){
+        height:75vh;
+        overflow: hidden;
+        overflow-y: scroll;
+
+    }
+    .card::-webkit-scrollbar { 
+      display: none;
     }
 </style>
 

@@ -1,5 +1,25 @@
+* {
+  transition-delay: all .1s ;
+  -webkit-transition-delay: all .1s ease;
+  -moz-transition-delay: all .1s ease;
+  -o-transition-delay: all .1s ease;
+
+  transition: all .5s ease;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -o-transition: all .5s ease;
+}
+*::-webkit-scrollbar { 
+  display: none;
+}
+
 body{
     background-color:#282828;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 /* page transitions */
@@ -9,4 +29,6 @@ body{
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
+  
+
   
