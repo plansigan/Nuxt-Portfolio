@@ -4,6 +4,7 @@ const pkg = require('./package')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
+  buildDir: '../functions/nuxt',
   mode: 'universal',
 
   /*

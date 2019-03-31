@@ -12,9 +12,22 @@
     </v-toolbar>
     <v-layout justify-center row>
       <v-flex :class="{'xs3 pt-2 px-1':showProjectDetails,'xs6 pt-2 px-1':!showProjectDetails}">
-        <v-card class="card" dark color="accent" overflow-hidden>
-          <v-card-text v-show="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
-          <v-card-text v-show="showProjects"><MyProjects :projects="loadedPosts"></MyProjects></v-card-text>
+        <v-card  dark color="accent">
+          <v-card-text class="card" v-show="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
+          <v-card-text class="card" v-show="showProjects"><MyProjects :projects="loadedPosts"></MyProjects>
+          <v-btn
+            color="orange darken-2"
+            dark
+            absolute
+            bottom
+            left
+            fab
+            @click="hideProjects"
+            >
+            <v-icon>arrow_back</v-icon>
+        </v-btn>
+        </v-card-text>
+          
         </v-card>
       </v-flex>
       <v-flex :class="{'xs6 pt-2 px-1':showProjectDetails,'xs3 pt-2 px-1':!showProjectDetails}">
@@ -72,12 +85,18 @@ import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
           loadedPosts(){
             return this.$store.getters.loadedPosts
           }
+        },
+        methods:{
+          hideProjects(){
+                this.$root.$emit('show-projects',false)
+                this.$root.$emit('show-project-details',false)
+            }
         }
     }
 </script>
 
 <style scoped>
-    .card:not(.back-button){
+    .card{
         height:75vh;
         overflow: hidden;
         overflow-y: scroll;

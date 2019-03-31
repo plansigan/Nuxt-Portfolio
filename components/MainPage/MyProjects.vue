@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="project-list">
+        <div class="project-list" style="position: relative">
             <h1>My Projects</h1>
                 <br>
                 <v-layout row>
@@ -31,20 +31,7 @@
                 </v-layout>
                 <!-- <v-btn depressed normal @click="hideProjects">Go Back</v-btn> -->
         </div>
-        <div class="back-button">
-            <v-btn
-                color="orange darken-2"
-                dark
-                absolute
-                bottom
-                left
-                fab
-                @click="hideProjects"
-                >
-                <v-icon>arrow_back</v-icon>
-            </v-btn>
-        </div>
-        
+
     </div>
 </template>
 
@@ -52,10 +39,6 @@
     export default {
         props:['projects'],
         methods:{
-            hideProjects(){
-                this.$root.$emit('show-projects',false)
-                this.$root.$emit('show-project-details',false)
-            },
             projectDetails(index){
                 // alert(index)
                 this.$root.$emit('show-project-details',{...this.projects[index],show:true})
@@ -66,6 +49,7 @@
 
 <style scoped>
     .back-button{
+        top:73vh;
         position:absolute !important;
     }
 </style>
