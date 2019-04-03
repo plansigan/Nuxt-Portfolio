@@ -5,7 +5,7 @@
       <v-toolbar dark color="#212121">
         <v-toolbar-side-icon></v-toolbar-side-icon>
         <v-toolbar-title class="white--text">Paolo Luis G. Lansigan</v-toolbar-title>
-        <v-btn dark color="white"><nuxt-link to="/admin" style="text-decoration:none">Admin</nuxt-link></v-btn>
+        <v-btn dark v-if="isLoggedIn"><nuxt-link to="/admin" style="text-decoration:none">Manage Page</nuxt-link></v-btn>
         <v-spacer></v-spacer>
         <v-btn icon>
         <v-icon>more_vert</v-icon>
@@ -14,20 +14,23 @@
     <v-layout justify-center row>
       <v-flex :class="{'xs3 pt-2 px-1':showProjectDetails,'xs6 pt-2 px-1':!showProjectDetails}">
         <v-card  dark color="accent">
-          <v-card-text class="card" v-show="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
-          <v-card-text class="card" v-show="showProjects"><MyProjects :projects="loadedPosts"></MyProjects>
-          <v-btn
-            color="orange darken-2"
-            dark
-            absolute
-            bottom
-            left
-            fab
-            @click="hideProjects"
-            >
-            <v-icon>arrow_back</v-icon>
-        </v-btn>
-        </v-card-text>
+          <fade-transition mode="out-in">
+            <v-card-text key="blue" class="card" v-if="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
+            <v-card-text key="red" class="card" v-else><MyProjects :projects="loadedPosts"></MyProjects>
+              <v-btn
+                color="orange darken-2"
+                dark
+                absolute
+                bottom
+                left
+                fab
+                @click="hideProjects"
+                >
+                <v-icon>arrow_back</v-icon>
+              </v-btn>
+            </v-card-text>
+          </fade-transition>
+          
           
         </v-card>
       </v-flex>
@@ -59,6 +62,7 @@ import PortfolioDetails from '@/components/MainPage/PortfolioDetails'
 import SocialMedia from '@/components/MainPage/SocialMedia'
 import MyProjects from '@/components/MainPage/MyProjects'
 import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
+import FadeTransition from '@/components/transitions/FadeTransition'
     export default {
 
         mounted(){
@@ -80,11 +84,17 @@ import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
             PortfolioDetails,
             SocialMedia,
             MyProjects,
-            MyProjectDetails
+            MyProjectDetails,
+            FadeTransition
         },
         computed:{
           loadedPosts(){
             return this.$store.getters.loadedPosts
+          },
+          isLoggedIn(){
+             if(this.$store.getters.isAuthenticated){
+               return true
+             }
           }
         },
         methods:{
@@ -92,7 +102,7 @@ import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
                 this.$root.$emit('show-projects',false)
                 this.$root.$emit('show-project-details',false)
             }
-        }
+        },
     }
 </script>
 

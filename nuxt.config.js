@@ -4,7 +4,6 @@ const pkg = require('./package')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
-  buildDir: '../functions/nuxt',
   mode: 'universal',
 
   /*
@@ -72,7 +71,8 @@ module.exports = {
   },
 
   env:{
-    firebaseURL:'https://nuxt-portfolio-e5e32.firebaseio.com'
+    firebaseURL:'https://nuxt-portfolio-e5e32.firebaseio.com',
+    fbAPIKey:'AIzaSyDxBOlPEUlBUkGs8HnjGh_8J4YihOi5ZoI'
   },
 
   /*

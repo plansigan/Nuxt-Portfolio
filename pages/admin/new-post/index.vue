@@ -5,6 +5,8 @@
 <script>
     import newPost from '@/components/Admin/adminPost'
     export default {
+        layout:'admin',
+        middleware:['auth'],
         components:{
             newPost
         },
