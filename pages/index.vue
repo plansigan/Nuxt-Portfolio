@@ -5,6 +5,7 @@
       <v-toolbar dark color="#212121">
         <v-toolbar-side-icon></v-toolbar-side-icon>
         <v-toolbar-title class="white--text">Paolo Luis G. Lansigan</v-toolbar-title>
+        <v-btn dark color="white"><nuxt-link to="/admin" style="text-decoration:none">Admin</nuxt-link></v-btn>
         <v-spacer></v-spacer>
         <v-btn icon>
         <v-icon>more_vert</v-icon>

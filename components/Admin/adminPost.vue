@@ -6,54 +6,58 @@
                 <form >
                     <h1>{{formTitle}}</h1>
                     <v-text-field
-                    v-model="title"
+                    v-model="editedPost.title"
                     :error-messages="titleErrors"
                     label="Title"
                     required
-                    @input="$v.title.$touch()"
-                    @blur="$v.title.$touch()"
+                    @input="$v.editedPost.title.$touch()"
+                    @blur="$v.editedPost.title.$touch()"
                     ></v-text-field>
                     <v-text-field
-                    v-model="previewContent"
+                    v-model="editedPost.previewContent"
                     :error-messages="previewContentErrors"
                     label="Preview Content"
                     required
-                    @input="$v.previewContent.$touch()"
-                    @blur="$v.previewContent.$touch()"
+                    @input="$v.editedPost.previewContent.$touch()"
+                    @blur="$v.editedPost.previewContent.$touch()"
                     ></v-text-field>
                     <v-textarea
-                    v-model="content"
+                    v-model="editedPost.content"
                     :error-messages="contentErrors"
                     name="contentPost"
                     label="Content"
                     value=""
                     hint="Tell something about this post"
-                    @input="$v.content.$touch()"
-                    @blur="$v.content.$touch()"
+                    @input="$v.editedPost.content.$touch()"
+                    @blur="$v.editedPost.content.$touch()"
                     ></v-textarea>
 
                     <v-text-field
-                    v-model="link"
+                    v-model="editedPost.link"
                     label="Project link"
                     >
                     </v-text-field>
 
                     <v-text-field
-                    v-model="image"
+                    v-model="editedPost.image"
                     label="Project Image"
                     >
                     </v-text-field>
 
                     <v-checkbox
-                    v-model="isDisplayed"
+                    v-model="editedPost.isDisplayed"
                     label="is Displayed"
                     required
-                    @change="$v.isDisplayed.$touch()"
-                    @blur="$v.isDisplayed.$touch()"
+                    @change="$v.editedPost.isDisplayed.$touch()"
+                    @blur="$v.editedPost.isDisplayed.$touch()"
                     ></v-checkbox>
-
-                    <v-btn @click="submit">submit</v-btn>
-                    <v-btn @click="clear">clear</v-btn>
+                    
+                    <div class="btns">
+                      <v-btn color="dark green" @click="submit">submit</v-btn>
+                      <nuxt-link to="./" style="text-decoration:none;"><v-btn color="dark red">Back</v-btn></nuxt-link>
+                      <v-btn color="primary" @click="clear">clear</v-btn>
+                    </div>
+                    
                 </form>
               </v-flex>
           </v-layout>
@@ -70,45 +74,63 @@
     mixins: [validationMixin],
 
     validations: {
-      title: { required,minLength:minLength(5) },
-      previewContent: { required },
-      isDisplayed: {
-        checked (val) {
-          return val
-        }
-      },
-      content:{required, minLength:minLength(20)}
+      editedPost:{
+        title: { required,minLength:minLength(5) },
+        previewContent: { required },
+        isDisplayed: {
+          checked (val) {
+            return val
+          }
+        },
+        content:{required, minLength:minLength(20)}
+      }
+      
     },
-    props:['formTitle'],
-    data: () => ({
-      title: '',
-      previewContent: '',
-      select: null,
-      content:'',
-      link:'',
-      image:'',
-      isDisplayed: false
-    }),
+    props:{
+            post:{
+                type:Object,
+                required:false,
+
+            },
+            formTitle:{
+              type:String,
+              required:true
+            }
+        },
+    data(){
+      return {
+        editedPost:this.post ? {...this.post}:
+      {
+        title: '',
+        previewContent: '',
+        select: null,
+        content:'',
+        link:'',
+        image:'',
+        isDisplayed: false
+      }
+      }
+    },
 
     computed: {
       titleErrors () {
         const errors = []
-        if (!this.$v.title.$dirty) return errors
-        !this.$v.title.minLength && errors.push('Title must be atleast 5 characters long')
-        !this.$v.title.required && errors.push('Title is required.')
+        if (!this.$v.editedPost.title.$dirty) return errors
+        !this.$v.editedPost.title.minLength && errors.push('Title must be atleast 5 characters long')
+        !this.$v.editedPost.title.required && errors.push('Title is required.')
         return errors
       },
       previewContentErrors () {
         const errors = []
-        if (!this.$v.previewContent.$dirty) return errors
-        !this.$v.previewContent.required && errors.push('preview content is required')
+        if (!this.$v.editedPost.previewContent.$dirty) return errors
+        !this.$v.editedPost.previewContent.required && errors.push('preview content is required')
         return errors
       },
       contentErrors () {
         const errors = []
-        if (!this.$v.content.$dirty) return errors
-        !this.$v.content.minLength && errors.push('Content must be atleast 20 characters long')
-        !this.$v.content.required && errors.push('Content is required')
+        if (!this.$v.editedPost.content.$dirty) return errors
+        !this.$v.editedPost.content.minLength && errors.push('Content must be atleast 20 characters long')
+        !this.$v.editedPost.content.required && errors.push('Content is required')
         return errors
       }
     },
@@ -116,29 +138,41 @@
     methods: {
       submit () {
         //validate post
-         this.$v.$touch()
-         if(!this.$v.$invalid){
-           const createdPost = {
-                    title:this.title,
-                    previewContent:this.previewContent,
-                    content:this.content,
-                    link:this.link,
-                    image:this.image,
-                    displayed:this.isDisplayed,
-                    updatedDate:new Date()
-            }
-           this.$emit('submit',createdPost)
-         }
+           if(!this.post){
+                this.$v.$touch()
+                if(!this.$v.$invalid){
+                const Post = {
+                          title:this.editedPost.title,
+                          previewContent:this.editedPost.previewContent,
+                          content:this.editedPost.content,
+                          link:this.editedPost.link,
+                          image:this.editedPost.image,
+                          displayed:this.editedPost.isDisplayed,
+                          updatedDate:new Date()
+                }
+                this.$emit('create-submit',Post)
+              }
+           } else {
+              this.$emit('edit-submit',this.editedPost)
+           }
       },
       clear () {
         this.$v.$reset()
-        this.title = ''
-        this.previewContent = ''
-        this.projectLink = '',
-        this.image='',
-        this.isDisplayed = false
-        this.content = ''
+        this.editedPost.title = ''
+        this.editedPost.previewContent = ''
+        this.editedPost.link = '',
+        this.editedPost.image='',
+        this.editedPost.isDisplayed = false
+        this.editedPost.content = ''
       }
     }
   }
 </script>
+
+
+
+<style scoped>
+  .btns {
+    float:right
+  }
+</style>

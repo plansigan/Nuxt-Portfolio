@@ -1,8 +1,9 @@
 <template>
     <div>
-        <Twitter v-if="socialMedia == 'Twitter'"></Twitter>
-        <Instagram v-if="socialMedia == 'Instagram'"></Instagram>
-        <Reddit v-if="socialMedia == 'Reddit'"></Reddit>
+        <Twitter v-show="socialMedia == 'Twitter'"></Twitter>
+        <Instagram v-show="socialMedia == 'Instagram'"></Instagram>
+        <Reddit v-show="socialMedia == 'Reddit'"></Reddit>
+        
 
         <div id="feedIcons"              
               
@@ -61,9 +62,9 @@ export default {
 
 <style scoped>
     #feedIcons{
-        position: absolute;
-        bottom: 5%;
-        left: 75%;
+        position: fixed;
+        bottom: 15%;
+        left: 94%;
     }
     /* #feedIcons > *{
         margin:0% 10%;
@@ -71,9 +72,10 @@ export default {
 
     @media only screen and (max-width:1904px){
         #feedIcons{
-            position: absolute;
-            bottom: 5%;
-            left: 65%;
+            position: fixed;
+            font-size:5px;
+            bottom: 10%;
+            left: 90%;
         }
     }
 </style>

@@ -14,6 +14,13 @@ const createStore = () => {
 
                 state.loadedPosts = posts
                 console.log(state.loadedPosts)
+            },
+            editPost(state,editedPost){
+                const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id);
+                state.loadedPosts[postIndex] = editedPost 
+            },
+            deletePost(state,index){
+                state.loadedPosts.splice(index,1)
             }
         },
         actions:{
@@ -39,6 +46,25 @@ const createStore = () => {
                         })
                         .catch(e =>{
                         console.log(e)
+                        })
+            },
+            editPost(vuexContext,editedPost){
+                return this.$axios
+                    // .$put(`${process.env.firebaseURL}/posts/${editedPost.id}.json?auth=${vuexContext.state.token}`,editedPost)
+                    .$put(`${process.env.firebaseURL}/posts/${editedPost.id}.json`,editedPost)
+                    .then(data => {
+                        vuexContext.commit('editPost',editedPost)
+                    })
+                    .catch(e => {console.log(e)})
+            },
+            deletePosts(vuexContext,postsToDelete){
+                // var newLoadedPosts = state.loadedPosts;
+                return postsToDelete.forEach(e=>{
+                        this.$axios
+                            .$delete(`${process.env.firebaseURL}/posts/${vuexContext.state.loadedPosts[e].id}.json`)
+                            .then(data => {
+                                vuexContext.commit('deletePost',e)
+                            })
                         })
             }
         },

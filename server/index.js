@@ -3,6 +3,12 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 
+//social media routes
+var twitterRoutes = require('./routes/twitter')
+
+//use routes
+app.use('/twitter',twitterRoutes)
+
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')

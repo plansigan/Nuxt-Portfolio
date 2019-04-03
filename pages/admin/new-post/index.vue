@@ -1,5 +1,5 @@
 <template>
-    <new-post formTitle="New Post" @submit="onSubmitted"></new-post>
+    <new-post formTitle="New Post" @create-submit="onSubmitted"></new-post>
 </template>
 
 <script>
