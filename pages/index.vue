@@ -28,7 +28,7 @@
     </v-toolbar>
     <v-layout justify-center row>
       <v-flex :class="{'xs3 pt-2 px-1':showProjectDetails,'xs6 pt-2 px-1':!showProjectDetails}">
-        <v-card  dark color="accent">
+        <v-card  dark color="accent" >
           <fade-transition mode="out-in">
             <v-card-text key="blue" class="card" v-if="!showProjects" ><PortfolioInfo></PortfolioInfo></v-card-text>
             <v-card-text key="red" class="card" v-else><MyProjects :projects="loadedPosts"></MyProjects>
@@ -95,6 +95,9 @@ import Comments from '@/components/MainPage/MyProjectsComments'
           this.$root.$on('show-project-details',(data)=>{
               this.showProjectDetails = data.show
               this.socialMedia = !data.show
+
+              //get the data of the currently viewed post
+            this.$store.dispatch('viewedPost',data)
           })
         },
         data(){

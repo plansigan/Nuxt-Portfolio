@@ -5,6 +5,7 @@ const createStore = () => {
     return new Vuex.Store({
         state:{
             loadedPosts:[],
+            viewedPost:{},
             token:null,
             Guest:''
         },
@@ -24,16 +25,26 @@ const createStore = () => {
             deletePost(state,index){
                 state.loadedPosts.splice(index,1)
             },
+            viewedPost(state,post){
+                state.viewedPost = post
+            },
+            addComment(state,comment){
+                var index = state.viewedPost.index;
+                
+                if(state.loadedPosts[index].comments){
+                    state.loadedPosts[index].comments.push(comment)
+                } else {
+                    state.loadedPosts[index] = {...state.loadedPosts[index],comments:comment}
+                }
+            },
             setToken(state,token){
                 state.token = token
-                
             },
             clearToken(state){
                 state.token = null
             },
             setGuest(state,Guest){
-                state.Guest = Guest
-                
+                state.Guest = Guest    
             }
         },
         actions:{
@@ -79,6 +90,28 @@ const createStore = () => {
                                 vuexContext.commit('deletePost',e)
                             })
                         })
+            },
+            viewedPost(vuexContext,post){
+                vuexContext.commit('viewedPost',post)
+            },
+            addComment(vuexContext,comment){
+
+                var editedPost = this.state.viewedPost;
+
+                if(editedPost.comments){
+                    editedPost.comments.push(comment)
+                } else {
+                    console.log(comment)
+                    editedPost = {...editedPost,comments:[comment]}
+                    console.log(editedPost)
+                }
+
+                return this.$axios
+                    .$put(`${process.env.firebaseURL}/posts/${editedPost.id}.json`,editedPost)
+                    .then(data => {
+                        vuexContext.commit('addComment',comment)
+                    })
+                    .catch(e => {console.log(e)})
             },
             authenticateUser(vuexContext,authData){
                 let authUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${process.env.fbAPIKey}`
@@ -174,6 +207,16 @@ const createStore = () => {
             },
             isAuthenticated(state){
                 return state.token != null
+            },
+            viewedPost(state){
+                return state.viewedPost
+            },
+            viewedPostCommentList(state){
+                if(state.viewedPost.comments){
+                    return state.viewedPost.comments
+                } else {
+                    return false
+                }
             },
             Guest(state){
                 return state.Guest

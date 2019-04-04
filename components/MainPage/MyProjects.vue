@@ -5,7 +5,7 @@
                 <br>
                 <v-layout row>
                     <v-flex>
-                        <v-card>
+                        <v-card flat>
                             <v-list two-line>
                                 <template v-for="(project,index) in projects">
                                     <v-list-tile
@@ -41,7 +41,7 @@
         methods:{
             projectDetails(index){
                 // alert(index)
-                this.$root.$emit('show-project-details',{...this.projects[index],show:true})
+                this.$root.$emit('show-project-details',{...this.projects[index],show:true,index})
             }
         }   
     }
