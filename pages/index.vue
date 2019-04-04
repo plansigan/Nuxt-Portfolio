@@ -1,14 +1,14 @@
 <template>
 <!-- <v-container grid-list-xl> -->
   <div>
-    <v-container>
+
       <v-toolbar dark color="#212121">
         <v-icon color="green" class="pulse">fa-circle</v-icon>
-        <v-toolbar-title class="white--text">Paolo Luis G. Lansigan</v-toolbar-title>
+        <v-toolbar-title class="white--text">Welcome to my portfolio {{Guest ? Guest : 'Human'}}</v-toolbar-title>
         <v-btn dark v-if="isLoggedIn"><nuxt-link to="/admin" style="text-decoration:none">Manage Page</nuxt-link></v-btn>
         <v-spacer></v-spacer>
 
-        <v-btn icon dark color="black" @click="expand =! expand">
+        <v-btn icon dark color="transparent" @click="expand =! expand">
           ?
         </v-btn>
         
@@ -57,60 +57,17 @@
       </v-flex>
       <v-flex class="xs3 pt-2 px-1">
         <v-card class="card" dark color="accent">
-          <v-card-text><SocialMedia></SocialMedia></v-card-text>
+          <v-container>
+            <SocialMedia v-show="socialMedia"></SocialMedia>
+            <Comments v-show="!socialMedia"></Comments>
+          </v-container>
         </v-card>
       </v-flex>
     </v-layout>
     <template>
-  <div class="text-xs-center">
-    <v-dialog
-      v-model="dialogUser"
-      width="500"
-    >
-      <template v-slot:activator="{ on }">
-        <div style="display:none">
-          <v-btn
-          color="transparent"
-          v-on="on"
-        >
-        </v-btn>
-        </div>
-      </template>
-
-      <v-card>
-        <!-- <v-card-title
-          class="headline"
-          primary-title
-        >
-          Welcome
-        </v-card-title> -->
-
-        <v-card-text>
-          <h2>What's your name?</h2>
-          <v-flex align-center>
-            <v-text-field v-model="user"
-              placeholder="Jordan Schlansky"
-            ></v-text-field>
-          </v-flex>
-          <b>NOTE</b>: this website uses cookies. to maximize the user experience of this website please enable your cookies.
-        </v-card-text>
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="white"
-             flat
-            @click="dialogUser = false"
-          >
-            Yep, this is absolutely me
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+  <welcomeModal></welcomeModal>
 </template>
-    </v-container>
+
   </div>
       <!-- <v-footer class="pa-3">
       <v-spacer></v-spacer>
@@ -127,6 +84,8 @@ import SocialMedia from '@/components/MainPage/SocialMedia'
 import MyProjects from '@/components/MainPage/MyProjects'
 import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
 import FadeTransition from '@/components/transitions/FadeTransition'
+import welcomeModal from '@/components/modals/welcome'
+import Comments from '@/components/MainPage/MyProjectsComments'
     export default {
 
         mounted(){
@@ -135,15 +94,15 @@ import FadeTransition from '@/components/transitions/FadeTransition'
           })
           this.$root.$on('show-project-details',(data)=>{
               this.showProjectDetails = data.show
+              this.socialMedia = !data.show
           })
         },
         data(){
           return {
             showProjects:false,
             showProjectDetails:false,
-            expand:false,
-            dialogUser:true,
-            user:''
+            socialMedia:true,
+            expand:false
           }
         },
         components:{
@@ -152,7 +111,9 @@ import FadeTransition from '@/components/transitions/FadeTransition'
             SocialMedia,
             MyProjects,
             MyProjectDetails,
-            FadeTransition
+            Comments,
+            FadeTransition,
+            welcomeModal
         },
         computed:{
           loadedPosts(){
@@ -162,20 +123,26 @@ import FadeTransition from '@/components/transitions/FadeTransition'
              if(this.$store.getters.isAuthenticated){
                return true
              }
+          },
+          Guest(){
+             return this.$store.getters.Guest
           }
         },
         methods:{
           hideProjects(){
                 this.$root.$emit('show-projects',false)
                 this.$root.$emit('show-project-details',false)
+            },
+            getUser(user){
+              this.user = user
             }
-        },
+        }
     }
 </script>
 
 <style scoped>
     .card{
-        height:75vh;
+        height:85vh;
         overflow: hidden;
         overflow-y: scroll;
 

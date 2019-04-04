@@ -5,7 +5,8 @@ const createStore = () => {
     return new Vuex.Store({
         state:{
             loadedPosts:[],
-            token:null
+            token:null,
+            Guest:''
         },
         mutations:{
             addPost(state,post){
@@ -25,10 +26,14 @@ const createStore = () => {
             },
             setToken(state,token){
                 state.token = token
-                // this.$router.push('/admin')
+                
             },
             clearToken(state){
                 state.token = null
+            },
+            setGuest(state,Guest){
+                state.Guest = Guest
+                
             }
         },
         actions:{
@@ -105,6 +110,12 @@ const createStore = () => {
                     }
 
                     const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='))
+                    const guestCookie = req.headers.Guest;
+
+                    if(guestCookie) {
+                        vuexContext.commit('setGuest',guestCookie)
+                    }
+
                     if(!jwtCookie) {
                         return
                     }
@@ -112,6 +123,7 @@ const createStore = () => {
                     token = jwtCookie.split('=')[1];
                     expirationDate = req.headers.cookie.split(';').find(c => c.trim().startsWith('expirationDate=')).split('=')[1];
                 } else {
+                    
                     token = localStorage.getItem('token')
                     expirationDate = localStorage.getItem('tokenExpiration');
                 }
@@ -136,6 +148,24 @@ const createStore = () => {
 
                 this.$router.push('/admin/auth')
                 
+            },
+            setGuest(vuexContext,Guest){
+
+                if(Guest) {
+                    vuexContext.commit('setGuest', Guest)
+                    
+                    if(process.client){
+                        localStorage.setItem('Guest',Guest);
+                    }
+                    //setting up guest on cookie
+                    
+                    Cookie.set('Guest',Guest)
+                } else {
+                    if(process.client){
+                        vuexContext.commit('setGuest',localStorage.getItem('Guest'))
+                    }   
+                }
+                
             }
         },
         getters:{
@@ -144,6 +174,9 @@ const createStore = () => {
             },
             isAuthenticated(state){
                 return state.token != null
+            },
+            Guest(state){
+                return state.Guest
             }
         }
     })
