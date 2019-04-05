@@ -32,9 +32,11 @@ const createStore = () => {
                 var index = state.viewedPost.index;
                 
                 if(state.loadedPosts[index].comments){
-                    state.loadedPosts[index].comments.push(comment)
+                    // state.loadedPosts[index].comments.unshift(comment)
+                    return
                 } else {
-                    state.loadedPosts[index] = {...state.loadedPosts[index],comments:comment}
+                    state.loadedPosts[index] = {...state.loadedPosts[index],comments:[comment]}
+                    state.viewedPost = state.loadedPosts[index]
                 }
             },
             setToken(state,token){
@@ -99,11 +101,9 @@ const createStore = () => {
                 var editedPost = this.state.viewedPost;
 
                 if(editedPost.comments){
-                    editedPost.comments.push(comment)
+                    editedPost.comments.unshift(comment)
                 } else {
-                    console.log(comment)
                     editedPost = {...editedPost,comments:[comment]}
-                    console.log(editedPost)
                 }
 
                 return this.$axios

@@ -6,7 +6,7 @@
         <form v-show="showComment" @submit.prevent="submit">
             <v-text-field
                 name="comment"
-                label="add Comment"
+                label="Add Comment"
                 :error-messages="commentErrors"
                 :counter="100"
                 v-model="comment"
@@ -17,12 +17,11 @@
         </form>
 
         <v-list two-line>
-          <template v-for="(comment, index) in commentList">
+          <template v-for="(comment) in commentList">
 
             <v-list-tile
               :key="comment.comment"
               avatar
-              @click=""
             >
               <v-list-tile-avatar>
                 <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">
@@ -31,6 +30,7 @@
               <v-list-tile-content>
                 <v-list-tile-title>{{comment.User}}</v-list-tile-title>
                 <v-list-tile-sub-title>{{comment.comment}}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{comment.createdDate | date}}</v-list-tile-sub-title>
               </v-list-tile-content>
         </v-list-tile>
         </template>   
@@ -51,13 +51,14 @@
             }
         },
         validations:{
-            comment:{maxLength:maxLength(100)}
+            comment:{maxLength:maxLength(100),required}
         },
         computed:{
             commentErrors(){
                 const errors = []
                 if(!this.$v.comment.$dirty) return errors
                 !this.$v.comment.maxLength && errors.push('Maximum of 100 characters only')
+                !this.$v.comment.required && errors.push('Type Something')
                 return errors
             },
             commentList(){

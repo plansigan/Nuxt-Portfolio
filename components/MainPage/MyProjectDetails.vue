@@ -2,7 +2,7 @@
     <div>
         
         <v-img v-if="project.image" :src="project.image" max-height="600"/>
-
+        <br>
         <h1>{{project.title}}</h1>
         <p>{{project.content}}</p>
         

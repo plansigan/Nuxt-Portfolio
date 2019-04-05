@@ -61,59 +61,14 @@
             <SocialMedia v-show="socialMedia"></SocialMedia>
             <Comments v-show="!socialMedia"></Comments>
           </v-container>
-          
         </v-card>
-        <v-btn
-        class="socialBtn"
-              color="blue"
-              fab
-                dark
-                medium
-                
-                bottom
-                left
-              @click="switchFeed('Twitter')" medium
-            >
-              <v-icon>fab fa-twitter</v-icon>
-            </v-btn>
-            <v-btn
-            class="socialBtn"
-              color="pink"
-              fab
-                dark
-                medium
-                  
-                bottom
-                left
-              @click="switchFeed('Instagram')"
-            >
-              <v-icon>fab fa-instagram</v-icon>
-            </v-btn>
-            <v-btn
-            class="socialBtn"
-              color="red"
-               fab
-                dark
-                medium
-                
-                bottom
-                left
-              @click="switchFeed('Reddit')"
-            >
-              <v-icon>fab fa-reddit-alien</v-icon>
-            </v-btn>
       </v-flex>
     </v-layout>
     <template>
-  <welcomeModal></welcomeModal>
-</template>
+      <welcomeModal></welcomeModal>
+    </template>
+</div>
 
-  </div>
-      <!-- <v-footer class="pa-3">
-      <v-spacer></v-spacer>
-      <div>&copy; {{ new Date().getFullYear() }}</div>
-    </v-footer> -->
-    <!-- </v-container> -->
 </template>
 
 
@@ -184,10 +139,6 @@ import Comments from '@/components/MainPage/MyProjectsComments'
 </script>
 
 <style scoped>
-
-    .socialBtn{
-      top:-3.5vh;
-    }
     .card{
         height:85vh;
         overflow: hidden;
