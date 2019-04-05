@@ -3,36 +3,7 @@
         <Twitter v-show="socialMedia == 'Twitter'"></Twitter>
         <Instagram v-show="socialMedia == 'Instagram'"></Instagram>
         <Reddit v-show="socialMedia == 'Reddit'"></Reddit>
-        
-
-        <div id="feedIcons"              
-              
-               >
-            <v-btn
-              color="blue"
-              fab
-              dark
-              @click="switchFeed('Twitter')" medium
-            >
-              <v-icon>fab fa-twitter</v-icon>
-            </v-btn>
-            <v-btn
-              color="pink"
-              fab
-              dark
-              @click="switchFeed('Instagram')"
-            >
-              <v-icon>fab fa-instagram</v-icon>
-            </v-btn>
-            <v-btn
-              color="red"
-               fab
-              dark
-              @click="switchFeed('Reddit')"
-            >
-              <v-icon>fab fa-reddit-alien</v-icon>
-            </v-btn>
-        </div>
+            
     </div>
 </template>
 
@@ -59,24 +30,4 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    #feedIcons{
-        position: fixed;
-        bottom: 15%;
-        left: 94%;
-    }
-    /* #feedIcons > *{
-        margin:0% 10%;
-    } */
-
-    @media only screen and (max-width:1904px){
-        #feedIcons{
-            position: fixed;
-            font-size:5px;
-            bottom: 10%;
-            left: 90%;
-        }
-    }
-</style>
 
