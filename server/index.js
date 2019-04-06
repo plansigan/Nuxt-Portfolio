@@ -42,8 +42,8 @@ async function start() {
     badge: true
   })
 
-  server.listen(80);
-  // WARNING: app.listen(80) will NOT work here!
+  server.use((req, res) => res.sendFile(INDEX) )
+  server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
   // app.get('/socket', function (req, res) {
   //   res.send({data:'fuck you'});
