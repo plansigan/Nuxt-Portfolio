@@ -2,11 +2,8 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
-// var server = require('http').Server(app);
-var io = require('socket.io')(app);
-
-  server.use((req, res) => res.sendFile(INDEX) )
-        .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 //social media routes
 var twitterRoutes = require('./routes/twitter')
@@ -45,7 +42,7 @@ async function start() {
     badge: true
   })
 
-  server.listen(80);
+  // server.listen(80);
   // WARNING: app.listen(80) will NOT work here!
 
   // app.get('/socket', function (req, res) {
