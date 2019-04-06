@@ -2,6 +2,8 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 //social media routes
 var twitterRoutes = require('./routes/twitter')
@@ -39,5 +41,36 @@ async function start() {
     message: `Server listening on http://${host}:${port}`,
     badge: true
   })
+
+  server.listen(80);
+  // WARNING: app.listen(80) will NOT work here!
+
+  // app.get('/socket', function (req, res) {
+  //   res.send({data:'fuck you'});
+  // });
+  var chatMessages = []
+  
+  io.on('connection', function (socket) {
+
+    console.log('there is a connection')
+
+    //get all the recent messages
+    socket.on('Created',(data)=>{
+      socket.emit('Created',chatMessages)
+    })
+
+    //a user disconnected
+    socket.on('disconnect',()=>{
+      console.log('disconnected')
+    })
+
+
+    socket.on('chat-message', function (data) {
+      socket.broadcast.emit('chat-message',(data))
+      chatMessages.push({...data,type:3})
+    });
+    
+  });
+
 }
 start()

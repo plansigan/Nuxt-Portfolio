@@ -1,13 +1,13 @@
 <template>
 <!-- <v-container grid-list-xl> -->
   <div>
-
+      
       <v-toolbar dark color="#212121">
         <v-icon color="green" class="pulse">fa-circle</v-icon>
         <v-toolbar-title class="white--text">Welcome to my portfolio {{Guest ? Guest : 'Human'}}</v-toolbar-title>
         <v-btn dark v-if="isLoggedIn"><nuxt-link to="/admin" style="text-decoration:none">Manage Page</nuxt-link></v-btn>
         <v-spacer></v-spacer>
-
+  
         <v-btn icon dark color="transparent" @click="expand =! expand">
           ?
         </v-btn>
@@ -26,6 +26,7 @@
         
         
     </v-toolbar>
+    <chatApp class="chatApp"/>
     <v-layout justify-center row>
       <v-flex :class="{'xs3 pt-2 px-1':showProjectDetails,'xs6 pt-2 px-1':!showProjectDetails}">
         <v-card  dark color="accent" >
@@ -81,6 +82,7 @@ import MyProjectDetails from '@/components/MainPage/MyProjectDetails'
 import FadeTransition from '@/components/transitions/FadeTransition'
 import welcomeModal from '@/components/modals/welcome'
 import Comments from '@/components/MainPage/MyProjectsComments'
+import chatApp from '@/components/chat-app/index'
     export default {
 
         mounted(){
@@ -111,7 +113,8 @@ import Comments from '@/components/MainPage/MyProjectsComments'
             MyProjectDetails,
             Comments,
             FadeTransition,
-            welcomeModal
+            welcomeModal,
+            chatApp
         },
         computed:{
           loadedPosts(){
@@ -171,6 +174,16 @@ import Comments from '@/components/MainPage/MyProjectsComments'
         transform-origin:70% 70%;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
+    }
+
+
+    /* chat app */
+    .chatApp{
+      position:absolute;
+      right:0;
+      z-index:1;
+      padding:20px;
+      width:400px;
     }
 </style>
 

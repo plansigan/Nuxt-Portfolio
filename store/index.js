@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Cookie from 'js-cookie'
 
+
 const createStore = () => {
     return new Vuex.Store({
         state:{
@@ -16,7 +17,6 @@ const createStore = () => {
             setPosts(state,posts){
 
                 state.loadedPosts = posts
-                console.log(state.loadedPosts)
             },
             editPost(state,editedPost){
                 const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id);
