@@ -65,14 +65,6 @@ import io from 'socket.io-client'
 
 var socket = io.connect(window.location.origin || 'http://localhost');
 
-var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);
-var el = document.getElementById('server-time');
-
-ws.onmessage = function (event) {
-  el.innerHTML = 'Server time: ' + event.data;
-};
-
 export default {
   created() {
       //on create get all messages from client

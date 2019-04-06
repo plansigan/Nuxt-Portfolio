@@ -42,7 +42,7 @@ async function start() {
     badge: true
   })
 
-  server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  server.listen(process.env.PORT || 80);
   // WARNING: app.listen(80) will NOT work here!
 
   // app.get('/socket', function (req, res) {
