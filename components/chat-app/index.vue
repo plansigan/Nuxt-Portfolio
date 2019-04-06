@@ -40,6 +40,8 @@
                                 </div>
                             </v-layout>
                         </v-container>
+                            
+                        </v-list-tile>
                     <v-divider></v-divider>
                     </div>
                     
@@ -63,7 +65,7 @@
 <script>
 import io from 'socket.io-client'
 
-var socket = io.connect(window.location.origin || 'http://localhost');
+var socket = io.connect(window.location.origin);
 
 export default {
   created() {

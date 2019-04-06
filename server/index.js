@@ -2,8 +2,8 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
-// var server = require('http').Server(app);
-var io = require('socket.io')(app);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 //social media routes
 var twitterRoutes = require('./routes/twitter')
@@ -42,7 +42,7 @@ async function start() {
     badge: true
   })
 
-  // server.listen(80);
+  server.listen(3000);
   // WARNING: app.listen(80) will NOT work here!
 
   // app.get('/socket', function (req, res) {
@@ -71,8 +71,6 @@ async function start() {
     });
     
   });
-
-  setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
 }
 start()
