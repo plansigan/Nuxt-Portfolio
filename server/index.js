@@ -2,9 +2,9 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
-const appIO = express.createServer(express.logger())
+
 // var server = require('http').Server(app);
-var io = require('socket.io')(appIO);
+
 
 //social media routes
 var twitterRoutes = require('./routes/twitter')
@@ -37,18 +37,16 @@ async function start() {
   app.use(nuxt.render)
 
   // Listen the server
-  app.listen(port, host)
+  var server = app.listen(port, host)
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true
   })
 
+  var io = require('socket.io')(server);
 
-  io.configure(function () { 
-    io.set("transports", ["xhr-polling"]); 
-    io.set("polling duration", 10); 
-  });
-  
+  io.set('origins', '*:*')
+  io.set('match origin protocol', true)
   // server.listen(80);
   // WARNING: app.listen(80) will NOT work here!
 

@@ -65,7 +65,7 @@
 <script>
 import io from 'socket.io-client'
 
-var socket = io.connect(window.location.hostname);
+var socket = io.connect(process.env.baseURL || 'http://localhost');
 
 export default {
   created() {
