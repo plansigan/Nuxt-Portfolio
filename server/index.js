@@ -11,6 +11,12 @@ var twitterRoutes = require('./routes/twitter')
 //use routes
 app.use('/twitter',twitterRoutes)
 
+
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
