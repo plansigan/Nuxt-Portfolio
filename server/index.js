@@ -2,20 +2,15 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+const appIO = express.createServer(express.logger())
+// var server = require('http').Server(app);
+var io = require('socket.io')(appIO);
 
 //social media routes
 var twitterRoutes = require('./routes/twitter')
 
 //use routes
 app.use('/twitter',twitterRoutes)
-
-
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -48,7 +43,13 @@ async function start() {
     badge: true
   })
 
-  server.listen(3000);
+
+  io.configure(function () { 
+    io.set("transports", ["xhr-polling"]); 
+    io.set("polling duration", 10); 
+  });
+  
+  // server.listen(80);
   // WARNING: app.listen(80) will NOT work here!
 
   // app.get('/socket', function (req, res) {
