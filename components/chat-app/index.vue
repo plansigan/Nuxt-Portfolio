@@ -65,7 +65,7 @@
 <script>
 import io from 'socket.io-client'
 
-var socket = io.connect(window.location.origin);
+var socket = io.connect(window.location.hostname);
 
 export default {
   created() {
