@@ -4,10 +4,9 @@
     <br>
         <ul>
             <li>Bespoke web design & development</li>
-            <li>E-Commerce Websites</li>
+            <li>Inventory Management Websites</li>
             <li>Serverless Application Development</li>
             <li>Wordpress Web Development</li>
-            <li>Cross-Platform Mobile App Development</li>
             <li>Managed Hosting & Support</li>
         </ul>
     <br>
@@ -29,5 +28,8 @@
 <style scoped>
     ul > * {
         margin-top:10px
+    }
+    li{
+        font-size:20px;
     }
 </style>

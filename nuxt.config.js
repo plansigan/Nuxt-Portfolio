@@ -77,8 +77,8 @@ module.exports = {
   env:{
     firebaseURL:'https://nuxt-portfolio-e5e32.firebaseio.com',
     fbAPIKey:'AIzaSyDxBOlPEUlBUkGs8HnjGh_8J4YihOi5ZoI',
-    // baseURL:'https://paolo-lansigan.herokuapp.com/'
-     baseURL:'http://localhost:3000/'
+    baseURL:'https://paolo-lansigan.herokuapp.com/'
+    //  baseURL:'http://localhost:3000/'
   },
 
   /*
