@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xs-center">
+    <div class="text-xs-center" id="welcomeModal">
     <v-dialog persistent
       v-model="dialogUser"
       width="500"
@@ -15,13 +15,6 @@
       </template>
 
       <v-card>
-        <!-- <v-card-title
-          class="headline"
-          primary-title
-        >
-          Welcome
-        </v-card-title> -->
-
         <v-card-text>
           <h2>What's your name?</h2>
           <v-flex align-center>
@@ -74,3 +67,21 @@
         }
     }
 </script>
+
+<style scoped>
+  #welcomeModal{
+      animation: fadeIn 0s 10s forwards;
+      animation-fill-mode: forwards;
+      visibility: hidden;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+</style>

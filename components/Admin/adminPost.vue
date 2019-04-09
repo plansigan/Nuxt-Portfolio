@@ -32,6 +32,7 @@
                     @blur="$v.editedPost.content.$touch()"
                     ></v-textarea>
 
+                    <tools/>
                     <v-text-field
                     v-model="editedPost.link"
                     label="Project link"
@@ -67,10 +68,19 @@
 
 
 <script>
+  import tools from '@/components/modals/tools'
   import { validationMixin } from 'vuelidate'
   import { required, maxLength,minLength, email } from 'vuelidate/lib/validators'
 
   export default {
+    mounted(){
+      this.$root.$on('tools-used',data=>{
+        this.editedPost.toolsSelected = data
+      })
+    },
+    components:{
+      tools
+    },
     mixins: [validationMixin],
 
     validations: {
@@ -103,6 +113,7 @@
       {
         title: '',
         previewContent: '',
+        toolsSelected:[],
         select: null,
         content:'',
         link:'',
@@ -147,6 +158,7 @@
                           content:this.editedPost.content,
                           link:this.editedPost.link,
                           image:this.editedPost.image,
+                          toolsUsed:this.editedPost.toolsSelected,
                           displayed:this.editedPost.isDisplayed,
                           updatedDate:new Date()
                 }
@@ -162,6 +174,7 @@
         this.editedPost.previewContent = ''
         this.editedPost.link = '',
         this.editedPost.image='',
+        this.editPost.toolsSelected=[]
         this.editedPost.isDisplayed = false
         this.editedPost.content = ''
       }

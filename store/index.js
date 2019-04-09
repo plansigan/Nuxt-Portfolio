@@ -1,14 +1,15 @@
 import Vuex from 'vuex'
 import Cookie from 'js-cookie'
 
-
 const createStore = () => {
     return new Vuex.Store({
         state:{
             loadedPosts:[],
             viewedPost:{},
             token:null,
-            Guest:''
+            Guest:'',
+            Messages:[],
+            isAdminConnected:false
         },
         mutations:{
             addPost(state,post){
@@ -47,6 +48,15 @@ const createStore = () => {
             },
             setGuest(state,Guest){
                 state.Guest = Guest    
+            },
+            setAdmin(state,isAdmin){
+                state.isAdminConnected = isAdmin
+            },
+            setMessages(state,messages){
+                state.Messages = messages
+            },
+            pushMessage(state,message){
+                state.Messages.push(message)
             }
         },
         actions:{
@@ -178,8 +188,10 @@ const createStore = () => {
                     localStorage.removeItem('token');
                     localStorage.removeItem('tokenExpiration');
                 }
-
+    
                 this.$router.push('/admin/auth')
+
+                return false
                 
             },
             setGuest(vuexContext,Guest){
@@ -199,6 +211,16 @@ const createStore = () => {
                     }   
                 }
                 
+            },
+            setAdmin(vuexContext,isAdmin){
+                vuexContext.commit('setAdmin',isAdmin)
+            },
+            setMessages(vuexContext,messages){
+                console.log('setMessages',messages)
+                vuexContext.commit('setMessages',messages)
+            },
+            pushMessage(vuexContext,message){
+                vuexContext.commit('pushMessage',message)
             }
         },
         getters:{
@@ -220,6 +242,12 @@ const createStore = () => {
             },
             Guest(state){
                 return state.Guest
+            },
+            isAdminConnected(state){
+                return state.isAdminConnected
+            },
+            Messages(state){
+                return state.Messages
             }
         }
     })

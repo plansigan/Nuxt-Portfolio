@@ -113,6 +113,7 @@
                         password:this.password
                     }).then(()=>{
                         this.$router.push('/admin')
+                        this.$root.$emit('is-admin-logged-in',true)
                     })
                 } else {
                     alert('error')

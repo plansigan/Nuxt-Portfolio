@@ -1,5 +1,5 @@
 <template>
-    <v-layout row>
+    <v-layout row class="chatApp">
         <v-flex>
         <v-card class="chatCard">
             <v-toolbar color="light-blue" dark>
@@ -63,40 +63,30 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
-
-var socket = io.connect(process.env.baseURL || 'http://localhost');
 
 export default {
-  created() {
-      //on create get all messages from client
-    socket.emit('Created')
-    socket.on('Created',(data)=>{
-        console.log(data)
-      this.messages = data
-    })
-
-    socket.on('chat-message',data=>{
-      this.messages.push({user:data.user,message:data.message,type:1})
-    })
-  },
+  props:['user','isAdmin'],
   data() {
     return {
-      message:null,
-      messages:[]
+      message:null
     }
   },
   methods:{
     submit(){
-      var message = {user:this.Guest,message:this.message,type:0}
-      socket.emit('chat-message',message)
-      this.messages.push(message)
-      this.message = null
+      var message = {user:this.user,message:this.message,type:0}
+       this.$store.dispatch('pushMessage',message)
+
+       //broadcast the message to all online sockets
+       this.$root.$emit('send-to-all',message)
+       this.message = null
     }
   },
   computed:{
     Guest(){
       return this.$store.getters.Guest
+    },
+    messages(){
+        return this.$store.getters.Messages
     }
   }
 }
@@ -129,11 +119,21 @@ export default {
   }
   .chatList{
       overflow-y: scroll;
-      max-height: 50vh;
+      height: 400px;
   }
 
   .chatCard{
       border-radius: 10px;
       width:100%;
   }
+
+  .chatApp{
+      display:none;
+      position:absolute;
+      right:0;
+      z-index:1;
+      padding:20px;
+      width:400px;
+      height:600px;
+    }
 </style>

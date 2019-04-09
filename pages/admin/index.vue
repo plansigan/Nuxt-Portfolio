@@ -1,5 +1,5 @@
 <template>
-        <v-layout row>
+        <v-layout row id="adminPage">
             <v-flex xs12>
                 <v-btn @click="$router.push('/')" flat dark>Main Page</v-btn>
                 <v-btn color="dark green" @click="$router.push('/admin/new-post')" dark>Create post +</v-btn>
@@ -49,15 +49,19 @@
                         </template>
                     </v-list>
                 </v-card>
+                <chatApp user="Paolo Lansigan (Admin)" :isAdmin="true"/> 
             </v-flex>
+            
         </v-layout>
 </template>
 
 
 <script>
+
+import chatApp from '@/components/chat-app/index'
+
     export default {
         name:'admin',
-        layout:'admin',
         middleware:['check-auth','auth'],
         data(){
             return {
@@ -67,7 +71,10 @@
         computed:{
           loadedPosts(){
             return this.$store.getters.loadedPosts
-          }
+          },
+          isAdminConnected(){
+            return this.$store.getters.isAdminConnected
+        }
         },
         methods:{
             editPost(index){
@@ -94,8 +101,20 @@
                 }
             },
             logout(){
-                this.$store.dispatch('logout')
+                this.$store.dispatch('logout').then(()=>{
+                    this.$root.$emit('is-admin-logged-in',false)
+                })
             }
-        }  
+        },
+        components:{
+            chatApp
+        }
     }
 </script>
+
+
+<style scoped>
+    #adminPage{
+        padding:2%;
+    }    
+</style>

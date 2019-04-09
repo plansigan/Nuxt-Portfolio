@@ -1,5 +1,6 @@
 <template>
     <div>
+        <chatApp :user="Guest"/>
         <Twitter v-show="socialMedia == 'Twitter'"></Twitter>
         <Instagram v-show="socialMedia == 'Instagram'"></Instagram>
         <Reddit v-show="socialMedia == 'Reddit'"></Reddit>
@@ -34,21 +35,21 @@
                         </v-btn>
                         <v-btn
                         class="socialBtn"
-                        color="pink"
+                        color="grey"
                         fab
                             dark
                             medium
-                        @click="switchFeed('Instagram')"
+                        @click="switchFeed('Twitter')"
                         >
                         <v-icon>fab fa-instagram</v-icon>
                         </v-btn>
                         <v-btn
                         class="socialBtn"
-                        color="red"
+                        color="grey"
                         fab
                             dark
                             medium
-                        @click="switchFeed('Reddit')"
+                        @click="switchFeed('Twitter')"
                         >
                         <v-icon>fab fa-reddit-alien</v-icon>
                         </v-btn>
@@ -63,6 +64,8 @@
 import Twitter from '@/components/MainPage/SocialMedia/Twitter'
 import Instagram from '@/components/MainPage/SocialMedia/Instagram'
 import Reddit from '@/components/MainPage/SocialMedia/Reddit'
+import chatApp from '@/components/chat-app/index'
+
 export default {
     data(){
         return {
@@ -73,11 +76,17 @@ export default {
     components:{
         Twitter,
         Instagram,
-        Reddit
+        Reddit,
+        chatApp
     },
     methods:{
         switchFeed(feed){
             this.socialMedia = feed
+        }
+    },
+    computed:{
+        Guest(){
+            return this.$store.getters.Guest
         }
     }
 }

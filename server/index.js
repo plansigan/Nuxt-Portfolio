@@ -50,30 +50,37 @@ async function start() {
   // server.listen(80);
   // WARNING: app.listen(80) will NOT work here!
 
-  // app.get('/socket', function (req, res) {
-  //   res.send({data:'fuck you'});
-  // });
   var chatMessages = []
+  var isAdminConnected = false
   
   io.on('connection', function (socket) {
 
-    console.log('there is a connection')
+    console.log('there is a connection',socket.id)
 
     //get all the recent messages
     socket.on('Created',(data)=>{
       socket.emit('Created',chatMessages)
+      
+      socket.emit('is-admin-logged-in',isAdminConnected)
     })
 
     //a user disconnected
     socket.on('disconnect',()=>{
-      console.log('disconnected')
+      console.log('disconnected',socket.id)
     })
 
 
-    socket.on('chat-message', function (data) {
+    socket.on('send-to-all', function (data) {
+      console.log(data,socket.id)
       socket.broadcast.emit('chat-message',(data))
       chatMessages.push({...data,type:3})
-    });
+    }); 
+
+    socket.on('is-admin-logged-in',(data)=>{
+      console.log(data)
+      isAdminConnected = data
+      io.emit('is-admin-logged-in',isAdminConnected)
+    })
     
   });
 
